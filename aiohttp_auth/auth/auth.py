@@ -20,7 +20,12 @@ def auth_middleware(policy):
             request[POLICY_KEY] = policy
 
             # Call the next handler in the chain
-            return await handler(request)
+            response = await handler(request)
+
+            # Give the policy a chance to handle the response
+            await policy.process_response(request, response)
+
+            return response
 
         return _middleware_handler
 

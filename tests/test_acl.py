@@ -19,7 +19,7 @@ class ACLMiddlewareTests(unittest.TestCase):
     def setUp(self):
         """Creates the storage and middlewares objects"""
         self.storage = SimpleCookieStorage()
-        self.auth = auth.AuthTktAuthentication(
+        self.auth = auth.SessionTktAuthentication(
             self.SECRET, 15, cookie_name='auth')
 
     @asyncio.run_until_complete()
