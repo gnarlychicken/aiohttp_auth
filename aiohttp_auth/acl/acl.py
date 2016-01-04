@@ -62,7 +62,7 @@ async def get_user_groups(request):
     user_id = await get_auth(request)
     groups = await acl_callback(user_id)
     if groups is None:
-        raise web.HTTPForbidden()
+        return None
 
     user_groups = (Group.AuthenticatedUser, user_id) if user_id is not None else ()
 

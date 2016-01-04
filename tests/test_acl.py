@@ -63,12 +63,12 @@ class ACLMiddlewareTests(unittest.TestCase):
         self.assertNotIn(Group.AuthenticatedUser, groups)
 
     @asyncio.run_until_complete()
-    async def test_forbidden_thrown_if_none_returned_from_callback(self):
+    async def test_no_groups_if_none_returned_from_callback(self):
         request = await make_request('GET', '/', \
             self._middleware(self._none_groups_callback))
 
-        with self.assertRaises(web.HTTPForbidden):
-            await acl.get_user_groups(request)
+        groups = await acl.get_user_groups(request)
+        self.assertIsNone(groups)
 
     @asyncio.run_until_complete()
     async def test_acl_permissions(self):
