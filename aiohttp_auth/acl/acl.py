@@ -13,7 +13,7 @@ def acl_middleware(callback):
 
     Args:
         callback: This is a callable which takes a user_id (as returned from
-            the auth.get_auth function, and expects a sequence of permitted ACL
+            the auth.get_auth function), and expects a sequence of permitted ACL
             groups to be returned. This can be a empty tuple to represent no
             explicit permissions, or None to explicitly forbid this particular
             user_id. Note that the user_id passed may be None if no
