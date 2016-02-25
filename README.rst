@@ -219,7 +219,7 @@ context was modified to::
                (Permission.Allow, 'edit_group', ('view', 'view_extra', 'edit')),]
 
 In this example the 'super_user' would be denied access to the view_extra_view
-even though they are included in both the view_group and edit_group.
+even though they are an AuthenticatedUser and in the edit_group.
 
 License
 -------
