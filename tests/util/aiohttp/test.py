@@ -5,16 +5,18 @@ from aiohttp.streams import EmptyStreamReader
 from http.cookies import SimpleCookie
 
 
-async def _identity(request):
-    return web.Response()
+def _identity(response):
+    async def handler(request):
+        return response
 
+    return handler
 
 async def prepare_request(request, middlewares):
     """Mainly used in testing, passes the request through the middlewares to
     much like the aiohttp application does, to shortcut the need for a aiohttp
     application object when testing
     """
-    handler = _identity
+    handler = _identity(web.Response())
     for factory in reversed(middlewares):
         handler = await factory(None, handler)
     response = await handler(request)
@@ -38,8 +40,11 @@ async def make_request(method, path, middlewares, cookies=None):
     return request
 
 
-async def make_response(request, middlewares):
-    handler = _identity
+async def make_response(request, middlewares, response=None):
+    if response is None:
+        response = web.Response()
+
+    handler = _identity(response)
     for factory in reversed(middlewares):
         handler = await factory(None, handler)
 

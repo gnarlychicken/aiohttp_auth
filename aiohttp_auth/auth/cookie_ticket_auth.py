@@ -60,6 +60,7 @@ class CookieTktAuthentication(TktAuthentication):
         Raises:
             RuntimeError: Raised if response has already started.
         """
+        await super().process_response(request, response)
         if COOKIE_AUTH_KEY in request:
             if response.started:
                 raise RuntimeError("Cannot save cookie into started response")
